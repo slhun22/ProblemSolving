@@ -1,31 +1,39 @@
 #include <iostream>
-#include <tuple>
-#include <unordered_map>
+#include <vector>
+#include <queue>
 using namespace std;
 
-int V, E;
-int visited[10000];
-unordered_map<int, pair<int, int>> e; //v1      v2, cost
+vector<pair<int ,int>> graph[10001]; //cost v
+priority_queue<pair<int, int>, vector<pair<int ,int>>, greater<pair<int, int>>> pq;
+bool visited[10001] = { false, true, };
 
 int main()
 {
 	ios_base::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
+	int E, V, cnt = 1, sum = 0, a, b, c;
 	cin >> V >> E;
-	int i, a, b, c;
-
-	for (i = 0; i < E; i++)
-	{
+	for (int i = 0; i < E; i++) {
 		cin >> a >> b >> c;
-		e[a] = { b, c };
-		e[b] = { a, c };
+		graph[a].push_back(make_pair(c, b));
+		graph[b].push_back(make_pair(c, a));
 	}
-		
-	visited[0] = 1;
-	for (i = 0; i < V - 1; i++)
-	{
-		int min = INT_MAX;
-		
+	for (auto edge : graph[1]) {
+		pq.push(edge);
 	}
+	while (cnt < V) {
+		auto p = pq.top();
+		pq.pop();
+		if (!visited[p.second]) {
+			visited[p.second] = true;
+			cnt++;
+			sum += p.first;
+			for (auto e : graph[p.second]) {
+				if(!visited[e.second])
+					pq.push(e);
+			}
+		}
+	}
+	cout << sum;
 }
