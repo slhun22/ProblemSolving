@@ -41,7 +41,7 @@ int main() {
 	ios::sync_with_stdio(0);
 
 	queue<Dat> q;
-	int N, M, i, j, bx, by, rx, ry, mincnt = 20;
+	int N, M, i, j, bx, by, rx, ry;
 
 	cin >> N >> M;
 	for (i = 0; i < N; i++)
@@ -82,8 +82,8 @@ int main() {
 
 			if (!isBlueHole) {
 				if (isRedHole) {
-					if (mincnt > cnt_q)
-						mincnt = cnt_q;
+					cout << cnt_q;
+					return 0;
 				}
 				else {
 					if (newBx == newRx && newBy == newRy) {
@@ -97,7 +97,7 @@ int main() {
 						}
 					}
 
-					if (!visited[newBx][newBy][newRx][newRy] && cnt_q < 10 && cnt_q < mincnt - 1) {
+					if (!visited[newBx][newBy][newRx][newRy] && cnt_q < 10) {
 						visited[newBx][newBy][newRx][newRy] = true;
 						q.push({ cnt_q + 1, newBx, newBy, newRx, newRy, i });
 					}	
@@ -106,5 +106,5 @@ int main() {
 		}
 	}
 
-	cout << (mincnt == 20? -1 : mincnt);
+	cout << -1;
 }
