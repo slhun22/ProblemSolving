@@ -4,27 +4,22 @@
 using namespace std;
 
 int field[50][50];
-bool blocked[50][50][4]; //¼­ ºÏ µ¿ ³²
+int st[50][50];
 int dx[4] = {0, -1, 0, 1};
 int dy[4] = {-1, 0, 1, 0};
 vector<int> area;
 queue<pair<int,int>> q;
-set<pair<int, int>> s; //ÀÎÁ¢ Áö¿ª ½Ö
+set<pair<int, int>> s; //ì¸ì ‘ ì§€ì—­ ìŒ
 
 int main() {
 	cin.tie(0);
 	ios::sync_with_stdio(0);
-	int M, N, i, j, k, n;
+	int M, N, i, j, k;
 	cin >> N >> M;
-	for (i = 0; i < M; i++) {
-		for (j = 0; j < N; j++) {
-			cin >> n;
-			for (k = 0; k < 4; k++) {
-				blocked[i][j][k] = n % 2;
-				n /= 2;
-			}
-		}
-	}
+	for (i = 0; i < M; i++)
+		for (j = 0; j < N; j++)
+			cin >> st[i][j];
+
 	area.push_back(0);
 	int id = 1;
 	int maxv = -1;
@@ -45,7 +40,7 @@ int main() {
 
 						if (nr < 0 || nr >= M || nc < 0 || nc >= N)
 							continue;
-						if (blocked[r][c][k] || blocked[nr][nc][(k + 2) % 4])
+						if (st[r][c] & (1 << k))
 							continue;
 
 						if (field[nr][nc] == 0) {
